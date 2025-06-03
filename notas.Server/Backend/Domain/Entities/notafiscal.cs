@@ -1,10 +1,13 @@
 ﻿using notas.Server.Backend.Domain.Enums;
 using System;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace notas.Server.Backend.Domain.Entities
 {
     public class NotaFiscal
     {
+        [Key]
         public int IdNota { get; private set; }
 
         public Empresa EmpresaOrigem { get; private set; }

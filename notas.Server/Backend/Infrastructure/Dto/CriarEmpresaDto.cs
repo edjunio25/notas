@@ -1,6 +1,6 @@
 using notas.Server.Backend.Domain.ValueObjects;
 
-namespace notas.Server.Infrastructure.Dto
+namespace notas.Server.Backend.Infrastructure.Dto
 {
     public class CriarEmpresaDto
     {

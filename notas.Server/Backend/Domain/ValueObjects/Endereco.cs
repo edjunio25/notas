@@ -1,7 +1,10 @@
 ﻿using notas.Server.Backend.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace notas.Server.Backend.Domain.ValueObjects
 {
+    [Owned]
     public class Endereco
     {
         public string logradouro { get; set; } = string.Empty;

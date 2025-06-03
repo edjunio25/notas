@@ -1,27 +1,49 @@
-﻿using notas.Server.Backend.Domain.Interfaces;
-using notas.Server.Backend.Domain.ValueObjects;
+﻿using notas.Server.Backend.Domain.Entities;
+using notas.Server.Backend.Domain.Interfaces;
+using notas.Server.Backend.Infrastructure.Dto;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace notas.Server.Backend.Application.Services
 {
     public class NotaFiscalService
     {
-        private readonly ICepService _cepService;
+        private readonly INotaFiscalRepository _notaFiscalRepository;
+        private readonly IEmpresaRepository _empresaRepository;
 
-        public NotaFiscalService(ICepService cepService)
+        public NotaFiscalService(INotaFiscalRepository notaFiscalRepository, IEmpresaRepository empresaRepository)
         {
-            _cepService = cepService;
+            _notaFiscalRepository = notaFiscalRepository;
+            _empresaRepository = empresaRepository;
         }
 
-        public async Task<Endereco?> MontarEnderecoComCep(string cep, string numero, string complemento)
+        public async Task<NotaFiscal?> CriarNotaFiscalAsync(CriarNotaFiscalDto dto)
         {
-            var enderecoBase = await _cepService.ObterEnderecoPorCepAsync(cep);
-            if (enderecoBase == null) return null;
+            var origem = await _empresaRepository.BuscarPorCnpjAsync(dto.CnpjOrigem);
+            var destino = await _empresaRepository.BuscarPorCnpjAsync(dto.CnpjDestino);
 
-            enderecoBase.numero = numero;
-            enderecoBase.complemento = complemento; // se você adicionar esse campo
+            if (origem == null || destino == null) return null;
 
-            return enderecoBase;
+            var nota = new NotaFiscal(
+                origem,
+                destino,
+                dto.NumeroNota,
+                dto.ChaveAcesso,
+                dto.Serie,
+                dto.TipoNota,
+                dto.ValorTotal,
+                dto.DataEmissao,
+                dto.DataPostagem,
+                dto.Descricao
+            );
+
+            await _notaFiscalRepository.SalvarAsync(nota);
+            return nota;
+        }
+
+        public async Task<IEnumerable<NotaFiscal>> ListarNotasAsync()
+        {
+            return await _notaFiscalRepository.ListarAsync();
         }
     }
-
 }

@@ -1,10 +1,10 @@
 ﻿// API/Controllers/EmpresaController.cs
 using Microsoft.AspNetCore.Mvc;
-using notas.Server.Application.Services;
-using notas.Server.Infrastructure.Dto;
+using notas.Server.Backend.Application.Services;
+using notas.Server.Backend.Infrastructure.Dto;
 using System.Threading.Tasks;
 
-namespace notas.Server.API.Controllers
+namespace notas.Server.Backend.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

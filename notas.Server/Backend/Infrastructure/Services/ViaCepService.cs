@@ -27,13 +27,13 @@ namespace notas.Server.Backend.Infrastructure.Services
                 return null;
 
             return new Endereco(
-                data.Logradouro ?? "",
-                "", // número vem do input do usuário
-                data.Bairro ?? "",
-                data.Localidade ?? "",
-                uf,
-                data.Cep ?? ""
-            );
+                logradouroInput: data.Logradouro ?? "",
+                complementoInput: "",
+                numeroInput: "",
+                bairroInput: data.Bairro ?? "",
+                cidadeInput: data.Localidade ?? "",
+                ufInput: uf,
+                cepInput: data.Cep ?? "");
         }
     }
 }

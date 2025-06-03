@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using notas.Server.Backend.Domain.Interfaces;
-using notas.Server.Application.Services;
-using notas.Server.Infrastructure.Data;
+using notas.Server.Backend.Application.Services;
+using notas.Server.Backend.Infrastructure.Data;
 using notas.Server.Backend.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +18,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IEmpresaRepository, EmpresaRepository>();
 builder.Services.AddScoped<EmpresaService>();
+
+builder.Services.AddScoped<INotaFiscalRepository, NotaFiscalRepository>();
+builder.Services.AddScoped<NotaFiscalService>();
 
 var app = builder.Build();
 

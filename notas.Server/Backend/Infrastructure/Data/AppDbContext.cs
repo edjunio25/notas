@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SeuProjeto.Models;
+using notas.Server.Backend.Domain.Entities;
 
-namespace SeuProjeto.Data
+namespace notas.Server.Backend.Infrastructure.Data
 {
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }
 
-        public DbSet<NotaFiscal> NotasFiscais { get; set; }
         public DbSet<Empresa> Empresas { get; set; }
+        public DbSet<NotaFiscal> NotasFiscais { get; set; }
     }
 }

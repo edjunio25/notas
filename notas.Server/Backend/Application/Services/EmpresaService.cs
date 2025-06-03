@@ -1,10 +1,10 @@
 ﻿using notas.Server.Backend.Domain.Entities;
 using notas.Server.Backend.Domain.Interfaces;
-using notas.Server.Infrastructure.Dto;
+using notas.Server.Backend.Infrastructure.Dto;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace notas.Server.Application.Services
+namespace notas.Server.Backend.Application.Services
 {
     public class EmpresaService
     {

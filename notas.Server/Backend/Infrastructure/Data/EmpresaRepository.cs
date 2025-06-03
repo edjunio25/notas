@@ -3,8 +3,10 @@ using notas.Server.Backend.Domain.Entities;
 using notas.Server.Backend.Domain.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using notas.Server.Backend.Infrastructure.Data;
 
-namespace notas.Server.Infrastructure.Data
+
+namespace notas.Server.Backend.Infrastructure.Data
 {
     public class EmpresaRepository : IEmpresaRepository
     {

@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Security.Permissions;
 using notas.Server.Backend.Domain.ValueObjects;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace notas.Server.Backend.Domain.Entities
 {
     public class Empresa
     {
-        public string IdEmpresa { get; private set; } = Guid.NewGuid().ToString();
+        [Key]
+        public int IdEmpresa { get; private set; }
         public int IsAtiva { get; private set; } = 1; // 1 = ativa, 0 = inativa
         public string RazaoSocial { get; private set; }
         public string NomeFantasia { get; private set; }
