@@ -22,6 +22,18 @@ builder.Services.AddScoped<EmpresaService>();
 builder.Services.AddScoped<INotaFiscalRepository, NotaFiscalRepository>();
 builder.Services.AddScoped<NotaFiscalService>();
 
+// === CORS ===
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirFrontend", policy =>
+    {
+        policy
+            .WithOrigins("https://localhost:65123")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // === Pipeline HTTP ===
@@ -34,6 +46,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+// === Ativa CORS ===
+app.UseCors("PermitirFrontend");
 
 app.UseAuthorization();
 

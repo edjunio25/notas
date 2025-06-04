@@ -1,7 +1,7 @@
 ﻿using notas.Server.Backend.Domain.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace notas.Server.Backend.Domain.Entities
 {
@@ -10,7 +10,13 @@ namespace notas.Server.Backend.Domain.Entities
         [Key]
         public int IdNota { get; private set; }
 
+        public int EmpresaOrigemId { get; private set; }
+        public int EmpresaDestinoId { get; private set; }
+
+        [ForeignKey(nameof(EmpresaOrigemId))]
         public Empresa EmpresaOrigem { get; private set; }
+
+        [ForeignKey(nameof(EmpresaDestinoId))]
         public Empresa EmpresaDestino { get; private set; }
 
         public string NumeroNota { get; private set; }
@@ -46,6 +52,9 @@ namespace notas.Server.Backend.Domain.Entities
 
             EmpresaOrigem = origem;
             EmpresaDestino = destino;
+            EmpresaOrigemId = origem.IdEmpresa;
+            EmpresaDestinoId = destino.IdEmpresa;
+
             NumeroNota = numeroNota;
             ChaveAcesso = chaveAcesso ?? string.Empty;
             Serie = serie ?? string.Empty;

@@ -6,6 +6,9 @@ namespace notas.Server.Backend.Infrastructure.Dto
 {
     public class CriarNotaFiscalDto
     {
+        public int EmpresaOrigemIdEmpresa { get; set; }  // Nome igual ao que está usando no service
+        public int EmpresaDestinoIdEmpresa { get; set; }
+
         public string NumeroNota { get; set; } = string.Empty;
         public string ChaveAcesso { get; set; } = string.Empty;
         public string Serie { get; set; } = string.Empty;
@@ -14,8 +17,7 @@ namespace notas.Server.Backend.Infrastructure.Dto
         public DateTime DataEmissao { get; set; }
         public DateTime DataPostagem { get; set; }
         public string Descricao { get; set; } = string.Empty;
-
-        public string CnpjOrigem { get; set; } = string.Empty;
-        public string CnpjDestino { get; set; } = string.Empty;
     }
+
+
 }

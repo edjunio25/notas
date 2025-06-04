@@ -33,6 +33,12 @@ namespace notas.Server.Backend.Infrastructure.Data
         {
             return await _context.Empresas.ToListAsync();
         }
+
+        public async Task<Empresa?> BuscarPorIdAsync(int id)
+        {
+            return await _context.Empresas.FindAsync(id);
+        }
+
     }
 }
 

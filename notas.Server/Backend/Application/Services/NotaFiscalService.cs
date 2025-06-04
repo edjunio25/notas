@@ -19,8 +19,8 @@ namespace notas.Server.Backend.Application.Services
 
         public async Task<NotaFiscal?> CriarNotaFiscalAsync(CriarNotaFiscalDto dto)
         {
-            var origem = await _empresaRepository.BuscarPorCnpjAsync(dto.CnpjOrigem);
-            var destino = await _empresaRepository.BuscarPorCnpjAsync(dto.CnpjDestino);
+            var origem = await _empresaRepository.BuscarPorIdAsync(dto.EmpresaOrigemIdEmpresa);
+            var destino = await _empresaRepository.BuscarPorIdAsync(dto.EmpresaDestinoIdEmpresa);
 
             if (origem == null || destino == null) return null;
 

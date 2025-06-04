@@ -9,5 +9,7 @@ namespace notas.Server.Backend.Domain.Interfaces
         Task SalvarAsync(Empresa empresa);
         Task<Empresa?> BuscarPorCnpjAsync(string cnpj);
         Task<IEnumerable<Empresa>> ListarTodasAsync();
+        Task<Empresa?> BuscarPorIdAsync(int id);
+
     }
 }
