@@ -1,2 +1,5 @@
 ignore:
+  #Conforme acordado com o professor, testaremos somente o backend
   - "**/notas.Client/**"
+  #Não é possível ou recomendável testar as migrations, que são geradas automaticamente pelo entity framework
+  - "**/Migrations/**"
