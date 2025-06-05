@@ -1,5 +1,12 @@
+codecov:
+  notify:
+    after_n_builds: 1
+
+coverage:
+  precision: 2
+  round: down
+  range: 70..100
+
 ignore:
-  #Conforme acordado com o professor, testaremos somente o backend
-  - "**/notas.Client/**"
-  #Não é possível ou recomendável testar as migrations, que são geradas automaticamente pelo entity framework
+  - "notas.Client/**"
   - "**/Migrations/**"
