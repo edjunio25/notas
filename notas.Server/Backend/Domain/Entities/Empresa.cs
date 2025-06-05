@@ -56,6 +56,8 @@ namespace notas.Server.Backend.Domain.Entities
 
         public override string ToString()
         {
+            //Esse método foi criado para haver uma representação legível para a empresa, concatenando a razão social e o CNPJ.
+            //Somente o CNPJ fica pouco legível, e a razão social pode ser igual para filiais, logo os dois juntos trazem a representação completa.
             return $"{RazaoSocial} ({Cnpj})";
         }
     }

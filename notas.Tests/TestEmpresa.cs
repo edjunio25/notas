@@ -52,5 +52,52 @@ namespace notas.Tests
             );
         }
 
+        [Fact]
+        public void TestCriarEmpresaComDadosValidos()
+        {
+            var endereco = CriarEnderecoDummy();
+            var empresa = new Empresa("Teste", "Teste Fantasia", "12345678910111", endereco);
+            Assert.NotNull(empresa);
+            Assert.Equal("Teste", empresa.RazaoSocial);
+            Assert.Equal("Teste Fantasia", empresa.NomeFantasia);
+            Assert.Equal("12345678910111", empresa.Cnpj);
+            Assert.Equal(endereco, empresa.EnderecoEmpresa);
+        }
+
+        [Fact] 
+        public void TestAtualizarDadosEmpresaComDadosValidos()
+        {
+            var endereco = CriarEnderecoDummy();
+            var empresa = new Empresa("Teste", "Teste Fantasia", "12345678910111", endereco);
+            var novoEndereco = CriarEnderecoDummy();
+            empresa.AtualizarDados("Nova Razao Social", "Novo Nome Fantasia", novoEndereco);
+            Assert.Equal("Nova Razao Social", empresa.RazaoSocial);
+            Assert.Equal("Novo Nome Fantasia", empresa.NomeFantasia);
+            Assert.Equal(novoEndereco, empresa.EnderecoEmpresa);
+        }
+
+        [Fact]
+        public void TestAlternarAtivacaoEmpresa()
+        {
+            var endereco = CriarEnderecoDummy();
+            var empresa = new Empresa("Teste", "Teste Fantasia", "12345678910111", endereco);
+           
+            Assert.Equal(1, empresa.IsAtiva);
+
+            empresa.AlternarAtivacao();
+            Assert.Equal(0, empresa.IsAtiva);
+            
+            empresa.AlternarAtivacao();
+            Assert.Equal(1, empresa.IsAtiva);
+        }
+
+        [Fact]
+        public void TestToStringEmpresaRetornaAStringCorreta()
+        {
+            var endereco = CriarEnderecoDummy();
+            var empresa = new Empresa("Teste", "Teste Fantasia", "12345678910111", endereco);
+            Assert.Equal("Teste (12345678910111)", empresa.ToString());
+        }
+
     }
 }
