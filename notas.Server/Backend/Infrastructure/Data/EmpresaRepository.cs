@@ -39,6 +39,7 @@ namespace notas.Server.Backend.Infrastructure.Data
             return await _context.Empresas.FindAsync(id);
         }
 
+
     }
 }
 
