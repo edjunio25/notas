@@ -1,6 +1,8 @@
-﻿using notas.Server.Backend.Domain.Enums;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using notas.Server.Backend.Domain.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace notas.Server.Backend.Domain.ValueObjects
 {
@@ -26,11 +28,27 @@ namespace notas.Server.Backend.Domain.ValueObjects
             bairro = bairroInput;
             cidade = cidadeInput;
             uf = ufInput;
-            cep = cepInput;
+            cep = RemoverCaracteresEspeciais(cepInput);
 
             if (string.IsNullOrWhiteSpace(cep))
                 throw new ArgumentException("CEP é obrigatório");
 
+            if (!ValidarCep(cep))
+            {
+                throw new ArgumentException("CEP Inválido");
+            }
+
+        }
+
+        private static string RemoverCaracteresEspeciais(string inputCep)
+        {
+            return Regex.Replace(inputCep ?? "", "[^0-9]", "");
+        }
+
+        public static bool ValidarCep(string cep)
+        {
+            if (cep.Length != 8) return false;
+            return Regex.IsMatch(cep, @"^\d{8}$");
         }
 
         public override string ToString()
