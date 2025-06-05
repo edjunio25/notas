@@ -1,13 +1,15 @@
 ﻿using System.ComponentModel;
-
-public enum TipoNota
+namespace notas.Server.Backend.Domain.Enums
 {
-    [Description("Nota Fiscal de Serviços")]
-    NFS,
+    public enum TipoNota
+    {
+        [Description("Nota Fiscal de Serviços")]
+        NFS,
 
-    [Description("Nota Fiscal Eletrônica")]
-    NFE,
+        [Description("Nota Fiscal Eletrônica")]
+        NFE,
 
-    [Description("Conhecimento de Transporte Eletrônico")]
-    CTE
+        [Description("Conhecimento de Transporte Eletrônico")]
+        CTE
+    }
 }
