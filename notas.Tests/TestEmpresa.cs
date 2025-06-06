@@ -122,17 +122,24 @@ namespace notas.Tests
             Assert.True(empresa.DataUltimaAtualizacao > antes);
         }
 
+        //Este teste estava flaky, pois a comparação com DateTime.UtcNow pode falhar dependendo do tempo de execução do teste.
+        //Executando na máquina local, o teste passava, mas no CI falhou.
+        //Colocamos um range para estabelecer uma tolerancia de tempo.
         [Fact]
         public void CriarEmpresa_DeveInicializarDatasCorretamente()
         {
             var endereco = CriarEnderecoDummy();
-            var antes = DateTime.UtcNow;
-            var empresa = new Empresa("Teste", "Teste Fantasia", "12345678910111", endereco);
-            var dataCriacao = empresa.DataCriacao;
+            var momentoCriacao = DateTime.UtcNow;
 
-            Assert.True(dataCriacao >= antes);
-            Assert.True(dataCriacao <= DateTime.UtcNow);
-            Assert.Equal(dataCriacao, empresa.DataUltimaAtualizacao);
+            var empresa = new Empresa("Teste", "Teste Fantasia", "12345678910111", endereco);
+
+            var tolerancia = TimeSpan.FromSeconds(1);
+
+            Assert.True(Math.Abs((empresa.DataCriacao - momentoCriacao).TotalMilliseconds) <= tolerancia.TotalMilliseconds);
+            Assert.True(Math.Abs((empresa.DataUltimaAtualizacao - momentoCriacao).TotalMilliseconds) <= tolerancia.TotalMilliseconds);
+            Assert.Equal(empresa.DataCriacao, empresa.DataUltimaAtualizacao);
         }
+
+
     }
 }
