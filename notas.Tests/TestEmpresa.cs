@@ -1,5 +1,6 @@
 ﻿using System;
 using Xunit;
+using System.Threading;
 using notas.Server.Backend.Domain.Entities;
 using notas.Server.Backend.Domain.ValueObjects;
 using notas.Server.Backend.Domain.Enums;
@@ -16,7 +17,7 @@ namespace notas.Tests
                 "Complemento",
                 "Bairro",
                 "Cidade",
-                UF.MG,        
+                UF.MG,
                 "00000000"
             );
         }
@@ -64,7 +65,7 @@ namespace notas.Tests
             Assert.Equal(endereco, empresa.EnderecoEmpresa);
         }
 
-        [Fact] 
+        [Fact]
         public void TestAtualizarDadosEmpresaComDadosValidos()
         {
             var endereco = CriarEnderecoDummy();
@@ -81,12 +82,12 @@ namespace notas.Tests
         {
             var endereco = CriarEnderecoDummy();
             var empresa = new Empresa("Teste", "Teste Fantasia", "12345678910111", endereco);
-           
+
             Assert.Equal(1, empresa.IsAtiva);
 
             empresa.AlternarAtivacao();
             Assert.Equal(0, empresa.IsAtiva);
-            
+
             empresa.AlternarAtivacao();
             Assert.Equal(1, empresa.IsAtiva);
         }
@@ -99,5 +100,39 @@ namespace notas.Tests
             Assert.Equal("Teste (12345678910111)", empresa.ToString());
         }
 
+        [Fact]
+        public void AlternarAtivacao_DeveAtualizarDataUltimaAtualizacao()
+        {
+            var endereco = CriarEnderecoDummy();
+            var empresa = new Empresa("Teste", "Teste Fantasia", "12345678910111", endereco);
+            var antes = empresa.DataUltimaAtualizacao;
+            Thread.Sleep(1);
+            empresa.AlternarAtivacao();
+            Assert.True(empresa.DataUltimaAtualizacao > antes);
+        }
+
+        [Fact]
+        public void AtualizarDados_DeveAtualizarDataUltimaAtualizacao()
+        {
+            var endereco = CriarEnderecoDummy();
+            var empresa = new Empresa("Teste", "Teste Fantasia", "12345678910111", endereco);
+            var antes = empresa.DataUltimaAtualizacao;
+            Thread.Sleep(1);
+            empresa.AtualizarDados("Nova Razao Social", "Novo Nome Fantasia", CriarEnderecoDummy());
+            Assert.True(empresa.DataUltimaAtualizacao > antes);
+        }
+
+        [Fact]
+        public void CriarEmpresa_DeveInicializarDatasCorretamente()
+        {
+            var endereco = CriarEnderecoDummy();
+            var antes = DateTime.UtcNow;
+            var empresa = new Empresa("Teste", "Teste Fantasia", "12345678910111", endereco);
+            var dataCriacao = empresa.DataCriacao;
+
+            Assert.True(dataCriacao >= antes);
+            Assert.True(dataCriacao <= DateTime.UtcNow);
+            Assert.Equal(dataCriacao, empresa.DataUltimaAtualizacao);
+        }
     }
 }

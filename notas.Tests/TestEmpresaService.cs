@@ -117,5 +117,18 @@ namespace notas.Tests
             Assert.Equal(2, resultado.Count());
             repoMock.Verify(r => r.ListarTodasAsync(), Times.Once);
         }
+
+        [Fact]
+        public async Task ListarEmpresasAsync_DeveRetornarListaVazia_QuandoNaoExistemEmpresas()
+        {
+            var repoMock = new Mock<IEmpresaRepository>();
+            repoMock.Setup(r => r.ListarTodasAsync()).ReturnsAsync(new List<Empresa>());
+
+            var service = new EmpresaService(repoMock.Object);
+            var resultado = await service.ListarEmpresasAsync();
+
+            Assert.Empty(resultado);
+            repoMock.Verify(r => r.ListarTodasAsync(), Times.Once);
+        }
     }
 }
