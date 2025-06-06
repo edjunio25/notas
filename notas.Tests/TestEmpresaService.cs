@@ -31,7 +31,6 @@ namespace notas.Tests
         [Fact]
         public async Task CriarEmpresaAsync_DeveRetornarNull_SeEmpresaJaExiste()
         {
-            // Arrange
             var repoMock = new Mock<IEmpresaRepository>();
             repoMock.Setup(r => r.BuscarPorCnpjAsync(It.IsAny<string>()))
                 .ReturnsAsync(new Empresa("Teste", "Fantasia", "12345678910111", CriarEnderecoDummy()));
@@ -45,10 +44,8 @@ namespace notas.Tests
                 Endereco = CriarEnderecoDummy()
             };
 
-            // Act
             var resultado = await service.CriarEmpresaAsync(dto);
 
-            // Assert
             Assert.Null(resultado);
             repoMock.Verify(r => r.SalvarAsync(It.IsAny<Empresa>()), Times.Never);
         }
@@ -56,7 +53,6 @@ namespace notas.Tests
         [Fact]
         public async Task CriarEmpresaAsync_DeveSalvarEmpresa_QuandoNaoExiste()
         {
-            // Arrange
             var repoMock = new Mock<IEmpresaRepository>();
             repoMock.Setup(r => r.BuscarPorCnpjAsync(It.IsAny<string>()))
                 .ReturnsAsync((Empresa?)null);
@@ -70,10 +66,8 @@ namespace notas.Tests
                 Endereco = CriarEnderecoDummy()
             };
 
-            // Act
             var resultado = await service.CriarEmpresaAsync(dto);
 
-            // Assert
             Assert.NotNull(resultado);
             repoMock.Verify(r => r.SalvarAsync(It.IsAny<Empresa>()), Times.Once);
             Assert.Equal("Teste", resultado!.RazaoSocial);

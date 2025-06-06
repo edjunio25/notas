@@ -14,14 +14,14 @@ namespace notas.Server.Backend.Domain.Entities
         public int EmpresaDestinoId { get; private set; }
 
         [ForeignKey(nameof(EmpresaOrigemId))]
-        public Empresa EmpresaOrigem { get; private set; }
+        public Empresa EmpresaOrigem { get; private set; } = default!;
 
         [ForeignKey(nameof(EmpresaDestinoId))]
-        public Empresa EmpresaDestino { get; private set; }
+        public Empresa EmpresaDestino { get; private set; } = default!;
 
-        public string NumeroNota { get; private set; }
-        public string ChaveAcesso { get; private set; }
-        public string Serie { get; private set; }
+        public string NumeroNota { get; private set; } = string.Empty;
+        public string ChaveAcesso { get; private set; } = string.Empty;
+        public string Serie { get; private set; } = string.Empty;
         public TipoNota TipoNota { get; private set; }
 
         public decimal ValorTotal { get; private set; }
@@ -29,7 +29,7 @@ namespace notas.Server.Backend.Domain.Entities
         public DateTime DataEmissao { get; private set; }
         public DateTime DataPostagem { get; private set; }
 
-        public string Descricao { get; private set; }
+        public string Descricao { get; private set; } = string.Empty;
 
         protected NotaFiscal() { }
 

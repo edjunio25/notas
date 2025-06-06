@@ -1,5 +1,4 @@
-﻿// API/Controllers/EmpresaController.cs
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using notas.Server.Backend.Application.Services;
 using notas.Server.Backend.Infrastructure.Dto;
 using System.Threading.Tasks;

@@ -18,7 +18,6 @@ namespace notas.Tests
         [Fact]
         public async Task CriarNotaFiscalAsync_DeveRetornarNull_SeEmpresaNaoExiste()
         {
-            // Arrange
             var notaRepoMock = new Mock<INotaFiscalRepository>();
             var empresaRepoMock = new Mock<IEmpresaRepository>();
 
@@ -40,17 +39,14 @@ namespace notas.Tests
                 Descricao = "Teste"
             };
 
-            // Act
             var resultado = await service.CriarNotaFiscalAsync(dto);
 
-            // Assert
             Assert.Null(resultado);
         }
 
         [Fact]
         public async Task CriarNotaFiscalAsync_DeveRetornarNotaFiscal_QuandoEmpresasExistem()
         {
-            // Arrange
             var notaRepoMock = new Mock<INotaFiscalRepository>();
             var empresaRepoMock = new Mock<IEmpresaRepository>();
 
@@ -77,10 +73,8 @@ namespace notas.Tests
                 Descricao = "Teste"
             };
 
-            // Act
             var resultado = await service.CriarNotaFiscalAsync(dto);
 
-            // Assert
             Assert.NotNull(resultado);
             notaRepoMock.Verify(r => r.SalvarAsync(It.IsAny<NotaFiscal>()), Times.Once);
         }

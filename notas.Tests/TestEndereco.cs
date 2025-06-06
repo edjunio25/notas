@@ -35,8 +35,9 @@ namespace notas.Tests
         public void RemoverCaracteresEspeciaisDeveRetornarApenasNumeros()
         {
             var metodo = typeof(Endereco).GetMethod("RemoverCaracteresEspeciais", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-            string result = (string)metodo.Invoke(null, new object[] { "30.110-020" });
+            var result = metodo?.Invoke(null, new object[] { "30.110-020" }) as string;
 
+            Assert.NotNull(result);
             Assert.Equal("30110020", result);
         }
 
@@ -44,8 +45,9 @@ namespace notas.Tests
         public void RemoverCaracteresEspeciaisComNullDeveRetornarVazio()
         {
             var metodo = typeof(Endereco).GetMethod("RemoverCaracteresEspeciais", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-            string result = (string)metodo.Invoke(null, new object?[] { null });
+            var result = metodo?.Invoke(null, new object?[] { null }) as string;
 
+            Assert.NotNull(result);
             Assert.Equal(string.Empty, result);
         }
 

@@ -11,9 +11,9 @@ namespace notas.Server.Backend.Domain.Entities
         [Key]
         public int IdEmpresa { get; private set; }
         public int IsAtiva { get; private set; } = 1; // 1 = ativa, 0 = inativa
-        public string RazaoSocial { get; private set; }
-        public string NomeFantasia { get; private set; }
-        public string Cnpj { get; private set; }
+        public string RazaoSocial { get; private set; } = string.Empty;
+        public string NomeFantasia { get; private set; } = string.Empty;
+        public string Cnpj { get; private set; } = string.Empty;
         public Endereco EnderecoEmpresa { get; private set; } = new Endereco();
         public DateTime DataCriacao { get; private set; } = DateTime.UtcNow;
         public DateTime DataUltimaAtualizacao { get; private set; } = DateTime.UtcNow;
