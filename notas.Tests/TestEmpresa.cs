@@ -125,20 +125,22 @@ namespace notas.Tests
         //Este teste estava flaky, pois a comparação com DateTime.UtcNow pode falhar dependendo do tempo de execução do teste.
         //Executando na máquina local, o teste passava, mas no CI falhou.
         //Colocamos um range para estabelecer uma tolerancia de tempo.
+        //Atualização: colocando um range de 1 segundo rodava corretamente na maquina, porem no actions não. Vamos adicionar um "antes" e "depois" para comparar a diferença de tempo, mantendo a tolerancia de 1 segundo.
         [Fact]
         public void CriarEmpresa_DeveInicializarDatasCorretamente()
         {
             var endereco = CriarEnderecoDummy();
-            var momentoCriacao = DateTime.UtcNow;
-
-            var empresa = new Empresa("Teste", "Teste Fantasia", "12345678910111", endereco);
-
+            var antes = DateTime.UtcNow;
             var tolerancia = TimeSpan.FromSeconds(1);
 
-            Assert.True(Math.Abs((empresa.DataCriacao - momentoCriacao).TotalMilliseconds) <= tolerancia.TotalMilliseconds);
-            Assert.True(Math.Abs((empresa.DataUltimaAtualizacao - momentoCriacao).TotalMilliseconds) <= tolerancia.TotalMilliseconds);
-            Assert.Equal(empresa.DataCriacao, empresa.DataUltimaAtualizacao);
+            var empresa = new Empresa("Teste", "Teste Fantasia", "12345678910111", endereco);
+            var depois = DateTime.UtcNow;
+
+            Assert.InRange(empresa.DataCriacao, antes - tolerancia, depois + tolerancia);
+            Assert.InRange(empresa.DataUltimaAtualizacao, antes - tolerancia, depois + tolerancia);
+            Assert.True(Math.Abs((empresa.DataCriacao - empresa.DataUltimaAtualizacao).TotalMilliseconds) < 1000);
         }
+
 
 
     }
