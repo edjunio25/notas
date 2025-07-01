@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5297/api";
+const API_URL = "https://localhost:7133/api";
 
 export async function listarEmpresas() {
     const response = await fetch(`${API_URL}/Empresa`);
@@ -24,7 +24,7 @@ export async function listarNotas() {
 }
 
 export async function cadastrarNota(nota) {
-    const response = await fetch("http://localhost:5297/api/NotaFiscal", {
+    const response = await fetch("https://localhost:7133/api/NotaFiscal", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -39,4 +39,16 @@ export async function cadastrarNota(nota) {
 
     return await response.json();
 }
+
+
+
+
+export async function buscarEnderecoPorCep(cep) {
+    const response = await fetch(`${API_URL}/cep/${cep}`);
+    if (!response.ok) {
+        throw new Error("CEP não encontrado.");
+    }
+    return await response.json();
+}
+
 

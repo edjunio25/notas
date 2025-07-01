@@ -10,6 +10,7 @@ namespace notas.Server.Backend.Domain.Interfaces
         Task<Empresa?> BuscarPorCnpjAsync(string cnpj);
         Task<IEnumerable<Empresa>> ListarTodasAsync();
         Task<Empresa?> BuscarPorIdAsync(int id);
+        Task AtualizarAsync(Empresa empresa);
 
     }
 }

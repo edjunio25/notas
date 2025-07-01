@@ -39,6 +39,14 @@ namespace notas.Server.Backend.Infrastructure.Data
             return await _context.Empresas.FindAsync(id);
         }
 
+        public async Task AtualizarAsync(Empresa empresa)
+        {
+            _context.Empresas.Update(empresa);
+            await _context.SaveChangesAsync();
+        }
+
+
+
 
     }
 }

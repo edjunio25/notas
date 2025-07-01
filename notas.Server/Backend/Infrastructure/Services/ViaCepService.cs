@@ -17,23 +17,41 @@ namespace notas.Server.Backend.Infrastructure.Services
 
         public async Task<Endereco?> ObterEnderecoPorCepAsync(string cep)
         {
-            var response = await _httpClient.GetAsync($"https://viacep.com.br/ws/{cep}/json/");
-            if (!response.IsSuccessStatusCode) return null;
+            try
+            {
+                var response = await _httpClient.GetAsync($"https://viacep.com.br/ws/{cep}/json/");
+                if (!response.IsSuccessStatusCode) return null;
 
-            var content = await response.Content.ReadAsStringAsync();
-            var data = JsonSerializer.Deserialize<ViaCepResponse>(content);
+                var content = await response.Content.ReadAsStringAsync();
+                var data = JsonSerializer.Deserialize<ViaCepResponse>(content);
 
-            if (data == null || data.Uf == null || !Enum.TryParse<UF>(data.Uf, out var uf))
+
+
+                if (data == null || data.Uf == null || !Enum.TryParse<UF>(data.Uf?.Trim(), ignoreCase: true, out var uf)
+)
+                {
+                    Console.WriteLine($"Erro de Processamento do VIACEP");
+                    return null;
+                }
+
+
+
+                Console.WriteLine($"UF recebido do ViaCEP: {data.Uf}");
+
+                return new Endereco(
+                    logradouroInput: data.Logradouro ?? "",
+                    complementoInput: "",
+                    numeroInput: "",
+                    bairroInput: data.Bairro ?? "",
+                    cidadeInput: data.Localidade ?? "",
+                    ufInput: uf,
+                    cepInput: data.Cep ?? "");
+            }
+            catch
+            {
                 return null;
-
-            return new Endereco(
-                logradouroInput: data.Logradouro ?? "",
-                complementoInput: "",
-                numeroInput: "",
-                bairroInput: data.Bairro ?? "",
-                cidadeInput: data.Localidade ?? "",
-                ufInput: uf,
-                cepInput: data.Cep ?? "");
+            }
         }
+
     }
 }

@@ -3,10 +3,11 @@ using notas.Server.Backend.Domain.Interfaces;
 using notas.Server.Backend.Infrastructure.Dto;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using notas.Server.Backend.Application.Interfaces;
 
 namespace notas.Server.Backend.Application.Services
 {
-    public class NotaFiscalService
+    public class NotaFiscalService : INotaFiscalService
     {
         private readonly INotaFiscalRepository _notaFiscalRepository;
         private readonly IEmpresaRepository _empresaRepository;
@@ -17,7 +18,7 @@ namespace notas.Server.Backend.Application.Services
             _empresaRepository = empresaRepository;
         }
 
-        public async Task<NotaFiscal?> CriarNotaFiscalAsync(CriarNotaFiscalDto dto)
+        public virtual async Task<NotaFiscal?> CriarNotaFiscalAsync(CriarNotaFiscalDto dto)
         {
             var origem = await _empresaRepository.BuscarPorIdAsync(dto.EmpresaOrigemIdEmpresa);
             var destino = await _empresaRepository.BuscarPorIdAsync(dto.EmpresaDestinoIdEmpresa);
@@ -41,9 +42,26 @@ namespace notas.Server.Backend.Application.Services
             return nota;
         }
 
-        public async Task<IEnumerable<NotaFiscal>> ListarNotasAsync()
+        public virtual async Task<IEnumerable<NotaFiscal>> ListarNotasAsync()
         {
             return await _notaFiscalRepository.ListarAsync();
         }
+
+        public virtual async Task<bool> ExcluirNotaAsync(int id)
+        {
+            var nota = await _notaFiscalRepository.BuscarPorIdAsync(id);
+            if (nota == null) return false;
+
+            await _notaFiscalRepository.ExcluirAsync(nota);
+            return true;
+        }
+
+        public virtual async Task<NotaFiscal?> BuscarPorIdAsync(int id)
+        {
+            return await _notaFiscalRepository.BuscarPorIdAsync(id);
+        }
+
+
+
     }
 }

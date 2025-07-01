@@ -2,6 +2,7 @@
 using notas.Server.Backend.Domain.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace notas.Server.Backend.Domain.ValueObjects
@@ -15,6 +16,7 @@ namespace notas.Server.Backend.Domain.ValueObjects
 
         public string bairro { get; set; } = string.Empty;
         public string cidade { get; set; } = string.Empty;
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public UF uf { get; set; }
         public string cep { get; set; } = string.Empty;
 

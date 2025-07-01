@@ -11,5 +11,7 @@ namespace notas.Server.Backend.Domain.Interfaces
         Task SalvarAsync(NotaFiscal notaFiscal);
         Task<IEnumerable<NotaFiscal>> ListarAsync();
         Task<NotaFiscal?> BuscarPorNumeroAsync(string numeroNota);
+        Task ExcluirAsync(NotaFiscal nota);
+        Task<NotaFiscal?> BuscarPorIdAsync(int id);
     }
 }

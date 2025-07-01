@@ -32,5 +32,22 @@ namespace notas.Server.Backend.Infrastructure.Data
             return await _context.NotasFiscais
                 .FirstOrDefaultAsync(n => n.NumeroNota == numeroNota);
         }
+
+        public async Task ExcluirAsync(NotaFiscal nota)
+        {
+            _context.NotasFiscais.Remove(nota);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<NotaFiscal?> BuscarPorIdAsync(int id)
+        {
+            return await _context.NotasFiscais
+                .Include(n => n.EmpresaOrigem)
+                .Include(n => n.EmpresaDestino)
+                .FirstOrDefaultAsync(n => n.IdNota == id);
+        }
+
+
+
     }
 }

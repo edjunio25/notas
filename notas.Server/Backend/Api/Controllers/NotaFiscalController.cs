@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using notas.Server.Backend.Application.Interfaces;
 using notas.Server.Backend.Application.Services;
 using notas.Server.Backend.Infrastructure.Dto;
 using System.Threading.Tasks;
@@ -9,9 +10,9 @@ namespace notas.Server.Backend.Api.Controllers
     [Route("api/[controller]")]
     public class NotaFiscalController : ControllerBase
     {
-        private readonly NotaFiscalService _service;
+        private readonly INotaFiscalService _service;
 
-        public NotaFiscalController(NotaFiscalService service)
+        public NotaFiscalController(INotaFiscalService service)
         {
             _service = service;
         }
@@ -30,6 +31,13 @@ namespace notas.Server.Backend.Api.Controllers
         {
             var notas = await _service.ListarNotasAsync();
             return Ok(notas);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Excluir(int id)
+        {
+            var sucesso = await _service.ExcluirNotaAsync(id);
+            return sucesso ? NoContent() : NotFound();
         }
     }
 }

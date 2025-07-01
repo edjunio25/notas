@@ -3,6 +3,7 @@ using notas.Server.Backend.Domain.Interfaces;
 using notas.Server.Backend.Application.Services;
 using notas.Server.Backend.Infrastructure.Data;
 using notas.Server.Backend.Infrastructure.Services;
+using notas.Server.Backend.Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,10 @@ builder.Services.AddScoped<EmpresaService>();
 
 builder.Services.AddScoped<INotaFiscalRepository, NotaFiscalRepository>();
 builder.Services.AddScoped<NotaFiscalService>();
+
+builder.Services.AddScoped<INotaFiscalService, NotaFiscalService>();
+builder.Services.AddScoped<IEmpresaService, EmpresaService>();
+
 
 // === CORS ===
 builder.Services.AddCors(options =>

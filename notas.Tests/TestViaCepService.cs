@@ -34,7 +34,7 @@ namespace notas.Tests
         [Fact]
         public async Task ObterEnderecoPorCepAsync_DeveRetornarEndereco_QuandoJsonValido()
         {
-            string json = "{\"Logradouro\":\"Rua A\",\"Bairro\":\"Centro\",\"Localidade\":\"Cidade\",\"Uf\":\"MG\",\"Cep\":\"30110-020\"}";
+            string json = "{\"cep\":\"30110-020\",\"logradouro\":\"Rua A\",\"complemento\":\"\",\"bairro\":\"Centro\",\"localidade\":\"Cidade\",\"uf\":\"MG\"}";
             var response = new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new StringContent(json)
