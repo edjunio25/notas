@@ -1,7 +1,6 @@
 {
   "name": "notas.e2etests",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,5 +11,11 @@
   "devDependencies": {
     "@playwright/test": "^1.53.2",
     "@types/node": "^24.0.10"
-  }
+  },
+  "dependencies": {
+    "playwright": "^1.53.2",
+    "playwright-core": "^1.53.2",
+    "undici-types": "^7.8.0"
+  },
+  "description": ""
 }

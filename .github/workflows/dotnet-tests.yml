@@ -41,6 +41,10 @@ jobs:
       with:
         node-version: '20.x'
 
+    - name: Install Playwright dependencies
+      working-directory: ./notas.e2eTests
+      run: npm ci
+
     - name: Install frontend dependencies
       working-directory: ./notas.client
       run: npm ci
@@ -50,16 +54,16 @@ jobs:
       run: npm run build
 
     - name: Install Playwright Browsers
-      working-directory: ./notas.client
+      working-directory: ./notas.e2eTests
       run: npx playwright install --with-deps
 
     - name: Run Playwright tests
       working-directory: ./notas.e2eTests
-      run: npx playwright test
+      run: npx playwright test --reporter=html
 
     - name: Upload Playwright report
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: playwright-report
-        path: ./notas.client/playwright-report
+        path: ./notas.e2eTests/playwright-report
