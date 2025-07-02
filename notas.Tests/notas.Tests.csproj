@@ -5,8 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
-	<IsTestProject>true</IsTestProject>
-	<CollectCoverage>true</CollectCoverage>
+	  <IsTestProject>true</IsTestProject>
+	  <CollectCoverage>true</CollectCoverage>
   </PropertyGroup>
 
   <ItemGroup>
@@ -39,22 +39,9 @@
     </None>
   </ItemGroup>
 
-
-  <Target Name="CopyDepsToTests" AfterTargets="Build">
-    <PropertyGroup>
-      <TestProjectDir>..\notas.Tests\</TestProjectDir>
-    </PropertyGroup>
-    <ItemGroup>
-      <DepsFile Include="$(OutputPath)notas.Server.deps.json" />
-    </ItemGroup>
-    <Copy
-      SourceFiles="@(DepsFile)"
-      DestinationFolder="$(TestProjectDir)bin\$(Configuration)\net8.0\"
-      SkipUnchangedFiles="true"
-    />
-  </Target>
-
-
-
+  <PropertyGroup>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
 
 </Project>

@@ -33,4 +33,16 @@
     <Folder Include="Tests\" />
   </ItemGroup>
 
+  <Target Name="CopyDepsAsTesthost" AfterTargets="Build">
+    <ItemGroup>
+      <DepsFile Include="$(OutputPath)notas.Server.deps.json" />
+    </ItemGroup>
+    <Copy
+      SourceFiles="@(DepsFile)"
+      DestinationFiles="..\notas.Tests\bin\$(Configuration)\net8.0\testhost.deps.json"
+      SkipUnchangedFiles="true" />
+  </Target>
+
+
+
 </Project>
