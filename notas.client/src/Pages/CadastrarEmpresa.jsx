@@ -1,6 +1,6 @@
 ﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../app.css';
+import '../App.css';
 
 export default function CadastrarEmpresa() {
     const [empresa, setEmpresa] = useState({
