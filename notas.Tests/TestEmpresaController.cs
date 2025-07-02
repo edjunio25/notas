@@ -71,5 +71,31 @@ namespace notas.Tests
             var ok = Assert.IsType<OkObjectResult>(result);
             Assert.Equal(lista, ok.Value);
         }
+
+        [Fact]
+        public async Task DesativarDeveRetornarNoContentQuandoSucesso()
+        {
+            var mockService = new Mock<IEmpresaService>();
+            mockService.Setup(s => s.DesativarEmpresaAsync(1)).ReturnsAsync(true);
+
+            var controller = new EmpresaController(mockService.Object);
+
+            var result = await controller.DesativarEmpresa(1);
+
+            Assert.IsType<NoContentResult>(result);
+        }
+
+        [Fact]
+        public async Task DesativarDeveRetornarNotFoundQuandoEmpresaNaoEncontrada()
+        {
+            var mockService = new Mock<IEmpresaService>();
+            mockService.Setup(s => s.DesativarEmpresaAsync(1)).ReturnsAsync(false);
+
+            var controller = new EmpresaController(mockService.Object);
+
+            var result = await controller.DesativarEmpresa(1);
+
+            Assert.IsType<NotFoundResult>(result);
+        }
     }
 }

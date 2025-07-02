@@ -129,5 +129,62 @@ namespace notas.Tests
             Assert.Equal(2, resultado.Count());
             notaRepoMock2.Verify(r => r.ListarAsync(), Times.Once);
         }
+
+        [Fact]
+        public async Task ExcluirNotaAsync_DeveRetornarFalse_QuandoNotaNaoExiste()
+        {
+            var notaRepoMock = new Mock<INotaFiscalRepository>();
+            var empresaRepoMock = new Mock<IEmpresaRepository>();
+
+            notaRepoMock.Setup(r => r.BuscarPorIdAsync(It.IsAny<int>()))
+                .ReturnsAsync((NotaFiscal?)null);
+
+            var service = new NotaFiscalService(notaRepoMock.Object, empresaRepoMock.Object);
+
+            var resultado = await service.ExcluirNotaAsync(1);
+
+            Assert.False(resultado);
+            notaRepoMock.Verify(r => r.ExcluirAsync(It.IsAny<NotaFiscal>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task ExcluirNotaAsync_DeveRetornarTrue_QuandoNotaExiste()
+        {
+            var notaRepoMock = new Mock<INotaFiscalRepository>();
+            var empresaRepoMock = new Mock<IEmpresaRepository>();
+            var endereco = new Endereco("Rua Teste", "", "123", "Centro", "Cidade", UF.MG, "30110000");
+            var origem = new Empresa("Origem", "Origem", "12345678910111", endereco);
+            var destino = new Empresa("Destino", "Destino", "10987654321011", endereco);
+            var nota = new NotaFiscal(origem, destino, "1", "c", "s", TipoNota.NFE, 10, DateTime.Now, DateTime.Now, "");
+
+            notaRepoMock.Setup(r => r.BuscarPorIdAsync(1)).ReturnsAsync(nota);
+
+            var service = new NotaFiscalService(notaRepoMock.Object, empresaRepoMock.Object);
+
+            var resultado = await service.ExcluirNotaAsync(1);
+
+            Assert.True(resultado);
+            notaRepoMock.Verify(r => r.ExcluirAsync(nota), Times.Once);
+        }
+
+        [Fact]
+        public async Task BuscarPorIdAsync_DeveChamarRepositorioERetornarNota()
+        {
+            var notaRepoMock = new Mock<INotaFiscalRepository>();
+            var empresaRepoMock = new Mock<IEmpresaRepository>();
+            var endereco = new Endereco("Rua A", "", "1", "Centro", "Cidade", UF.MG, "30110000");
+            var origem = new Empresa("A", "A", "12345678910111", endereco);
+            var destino = new Empresa("B", "B", "10987654321011", endereco);
+            var nota = new NotaFiscal(origem, destino, "2", "x", "s", TipoNota.NFE, 20, DateTime.Now, DateTime.Now, "");
+
+            notaRepoMock.Setup(r => r.BuscarPorIdAsync(2)).ReturnsAsync(nota);
+
+            var service = new NotaFiscalService(notaRepoMock.Object, empresaRepoMock.Object);
+
+            var resultado = await service.BuscarPorIdAsync(2);
+
+            Assert.Equal(nota, resultado);
+            notaRepoMock.Verify(r => r.BuscarPorIdAsync(2), Times.Once);
+        }
     }
 }

@@ -124,5 +124,36 @@ namespace notas.Tests
             Assert.Empty(resultado);
             repoMock.Verify(r => r.ListarTodasAsync(), Times.Once);
         }
+
+        [Fact]
+        public async Task DesativarEmpresaAsync_DeveRetornarFalse_QuandoEmpresaNaoEncontrada()
+        {
+            var repoMock = new Mock<IEmpresaRepository>();
+            repoMock.Setup(r => r.BuscarPorIdAsync(It.IsAny<int>()))
+                    .ReturnsAsync((Empresa?)null);
+
+            var service = new EmpresaService(repoMock.Object);
+
+            var resultado = await service.DesativarEmpresaAsync(1);
+
+            Assert.False(resultado);
+            repoMock.Verify(r => r.AtualizarAsync(It.IsAny<Empresa>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task DesativarEmpresaAsync_DeveDesativarEmpresaEAtualizar_QuandoEmpresaExiste()
+        {
+            var empresa = new Empresa("Teste", "Fantasia", "12345678910111", CriarEnderecoDummy());
+            var repoMock = new Mock<IEmpresaRepository>();
+            repoMock.Setup(r => r.BuscarPorIdAsync(1)).ReturnsAsync(empresa);
+
+            var service = new EmpresaService(repoMock.Object);
+
+            var resultado = await service.DesativarEmpresaAsync(1);
+
+            Assert.True(resultado);
+            Assert.Equal(0, empresa.IsAtiva);
+            repoMock.Verify(r => r.AtualizarAsync(empresa), Times.Once);
+        }
     }
 }
