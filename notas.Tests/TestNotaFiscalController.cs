@@ -88,5 +88,31 @@ namespace notas.Tests
             var ok = Assert.IsType<OkObjectResult>(result);
             Assert.Equal(lista, ok.Value);
         }
+
+        [Fact]
+        public async Task ExcluirDeveRetornarNoContentQuandoSucesso()
+        {
+            var mockService = new Mock<INotaFiscalService>();
+            mockService.Setup(s => s.ExcluirNotaAsync(1)).ReturnsAsync(true);
+
+            var controller = new NotaFiscalController(mockService.Object);
+
+            var result = await controller.Excluir(1);
+
+            Assert.IsType<NoContentResult>(result);
+        }
+
+        [Fact]
+        public async Task ExcluirDeveRetornarNotFoundQuandoFalha()
+        {
+            var mockService = new Mock<INotaFiscalService>();
+            mockService.Setup(s => s.ExcluirNotaAsync(1)).ReturnsAsync(false);
+
+            var controller = new NotaFiscalController(mockService.Object);
+
+            var result = await controller.Excluir(1);
+
+            Assert.IsType<NotFoundResult>(result);
+        }
     }
 }
