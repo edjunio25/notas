@@ -54,7 +54,7 @@ jobs:
       run: npx playwright install --with-deps
 
     - name: Run Playwright tests
-      working-directory: ./notas.client
+      working-directory: ./notas.e2eTests
       run: npx playwright test
 
     - name: Upload Playwright report
