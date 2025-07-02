@@ -19,18 +19,25 @@ namespace notas.Server.Backend.Infrastructure.Services
         {
             try
             {
+                Console.WriteLine($"Fazendo chamada para: https://viacep.com.br/ws/{cep}/json/");
                 var response = await _httpClient.GetAsync($"https://viacep.com.br/ws/{cep}/json/");
                 if (!response.IsSuccessStatusCode) return null;
-
                 var content = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Conteúdo bruto do ViaCEP:");
+                Console.WriteLine(content);
                 var data = JsonSerializer.Deserialize<ViaCepResponse>(content);
 
+                System.Diagnostics.Debugger.Break();
 
-
-                if (data == null || data.Uf == null || !Enum.TryParse<UF>(data.Uf?.Trim(), ignoreCase: true, out var uf)
-)
+                if (data == null || string.IsNullOrWhiteSpace(data.Uf))
                 {
-                    Console.WriteLine($"Erro de Processamento do VIACEP");
+                    Console.WriteLine($"Erro: dados do ViaCEP estão incompletos.");
+                    return null;
+                }
+
+                if (!Enum.TryParse<UF>(data.Uf.Trim(), ignoreCase: true, out var uf))
+                {
+                    Console.WriteLine($"Erro: UF '{data.Uf}' não pôde ser convertida para enum UF.");
                     return null;
                 }
 

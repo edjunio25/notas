@@ -10,3 +10,4 @@ coverage:
 ignore:
   - "notas.Client/**"
   - "**/Migrations/**"
+  - "notas.Server/Program.cs"
