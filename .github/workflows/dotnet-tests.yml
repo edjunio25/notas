@@ -55,7 +55,9 @@ jobs:
 
     - name: Install Playwright Browsers
       working-directory: ./notas.e2eTests
-      run: npx playwright install --with-deps
+      run: |
+        npx playwright install --with-deps
+        ls -la ~/.cache/ms-playwright || echo "Playwright cache não encontrado"
 
     - name: Run Playwright tests
       working-directory: ./notas.e2eTests
