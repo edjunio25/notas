@@ -55,5 +55,43 @@ namespace notas.Tests
             var todas = await repositorio.ListarTodasAsync();
             Assert.Equal(2, System.Linq.Enumerable.Count(todas));
         }
+
+        [Fact]
+        public async Task DeveBuscarEmpresaPorId()
+        {
+            var contexto = CriarContextoEmMemoria();
+            var repositorio = new EmpresaRepository(contexto);
+            var empresa = CriarEmpresaExemplo();
+
+            await repositorio.SalvarAsync(empresa);
+            var id = empresa.IdEmpresa;
+
+            var encontrada = await repositorio.BuscarPorIdAsync(id);
+            Assert.NotNull(encontrada);
+            Assert.Equal("Empresa Teste", encontrada!.RazaoSocial);
+        }
+
+        [Fact]
+        public async Task AtualizarAsync_DevePersistirAlteracoes()
+        {
+            var contexto = CriarContextoEmMemoria();
+            var repositorio = new EmpresaRepository(contexto);
+            var empresa = CriarEmpresaExemplo();
+
+            await repositorio.SalvarAsync(empresa);
+            var id = empresa.IdEmpresa;
+
+            empresa.AtualizarDados("Empresa Atualizada", "Nova Fantasia",
+                new Endereco("Rua B", "", "321", "Centro", "Belo Horizonte", UF.MG, "30110030"));
+
+            await repositorio.AtualizarAsync(empresa);
+
+            contexto.Entry(empresa).State = EntityState.Detached;
+            var atualizada = await repositorio.BuscarPorIdAsync(id);
+
+            Assert.NotNull(atualizada);
+            Assert.Equal("Empresa Atualizada", atualizada!.RazaoSocial);
+            Assert.Equal("Nova Fantasia", atualizada.NomeFantasia);
+        }
     }
 }

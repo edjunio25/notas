@@ -67,5 +67,22 @@ namespace notas.Tests
             var endereco = await service.ObterEnderecoPorCepAsync("30110-020");
             Assert.Null(endereco);
         }
+
+        private class ThrowingHttpMessageHandler : HttpMessageHandler
+        {
+            protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+            {
+                throw new HttpRequestException("Network failure");
+            }
+        }
+
+        [Fact]
+        public async Task ObterEnderecoPorCepAsync_DeveRetornarNull_QuandoHttpRequestFalhar()
+        {
+            var client = new HttpClient(new ThrowingHttpMessageHandler());
+            var service = new ViaCepService(client);
+            var endereco = await service.ObterEnderecoPorCepAsync("30110-020");
+            Assert.Null(endereco);
+        }
     }
 }
