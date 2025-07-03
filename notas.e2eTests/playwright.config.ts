@@ -1,4 +1,4 @@
-import { defineConfig } from '@playwright/test';
+﻿import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
     testDir: './Tests',
@@ -6,7 +6,7 @@ export default defineConfig({
     retries: 1,
     use: {
         baseURL: 'https://localhost:4173/',
-        headless: false,
+        headless: true,
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
         ignoreHTTPSErrors: true, 
