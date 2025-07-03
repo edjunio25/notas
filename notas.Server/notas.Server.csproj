@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <SpaRoot>..\notas.client</SpaRoot>
     <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
-    <SpaProxyServerUrl>https://localhost:65123</SpaProxyServerUrl>
+    <SpaProxyServerUrl>https://localhost:65124</SpaProxyServerUrl>
     <PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
 

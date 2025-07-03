@@ -1,6 +1,7 @@
 ﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
+import { cadastrarEmpresa } from "../Api/Api";
 
 export default function CadastrarEmpresa() {
     const [empresa, setEmpresa] = useState({
@@ -29,6 +30,11 @@ export default function CadastrarEmpresa() {
             },
         }));
     };
+    const estadosEnum = {
+        AC: 0,AL: 1,AM: 2,AP: 3,BA: 4,CE: 5,DF: 6,ES: 7,GO: 8,
+        MA: 9,MG: 10,MS: 11,MT: 12,PA: 13,PB: 14,PE: 15,PI: 16,PR: 17,RJ: 18,
+        RN: 19,RO: 20,RR: 21,RS: 22,SC: 23,SE: 24,SP: 25,TO: 26
+    };
 
     const buscarCep = async () => {
         const response = await fetch(`https://viacep.com.br/ws/${empresa.endereco.cep}/json/`);
@@ -39,10 +45,29 @@ export default function CadastrarEmpresa() {
         atualizarEndereco('uf', data.uf);
     };
 
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Enviando dados da empresa:', empresa);
+
+        const payload = {
+            ...empresa,
+            endereco: {
+                ...empresa.endereco,
+                uf: estadosEnum[empresa.endereco.uf] ?? 0
+            }
+        };
+
+        try {
+            const response = await cadastrarEmpresa(payload);
+            console.log('Empresa cadastrada com sucesso:', response);
+            navigate('/empresas');
+        } catch (error) {
+            console.error('Erro ao cadastrar empresa:', error);
+            alert('Falha ao cadastrar a empresa. Verifique os dados e tente novamente.');
+        }
     };
+
+
 
     return (
         <div className="formulario-container">

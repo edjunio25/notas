@@ -6,7 +6,7 @@ export default defineConfig({
     retries: 1,
     use: {
         baseURL: 'https://localhost:4173/',
-        headless: true,
+        headless: false,
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
         ignoreHTTPSErrors: true, 
