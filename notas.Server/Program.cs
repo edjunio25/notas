@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using notas.Server.Backend.Domain.Interfaces;
 using notas.Server.Backend.Application.Services;
 using notas.Server.Backend.Infrastructure.Data;
@@ -7,15 +7,18 @@ using notas.Server.Backend.Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// === Servi�os ===
+// === Serviços ===
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddHttpClient<ICepService, ViaCepService>();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=documentos.db"));
+if (!builder.Environment.IsEnvironment("Testing"))
+{
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlite("Data Source=documentos.db"));
+}
 
 builder.Services.AddScoped<IEmpresaRepository, EmpresaRepository>();
 builder.Services.AddScoped<EmpresaService>();
